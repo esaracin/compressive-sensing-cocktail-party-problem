@@ -1,0 +1,15 @@
+# Python ignores
+__pycache__/
+*.swp
+*.py[cod]
+*$py.class
+*.so
+
+
+# Tex Ignores
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+
