@@ -30,8 +30,8 @@ def main(argv):
         sys.exit(2)
 
     # Read in and apply STFT to our audio signal, x.
-    _, x = wv.read(argv[0])
-    freqs, segTimes, stft = sig.stft(x)
+    samplingFreq, x = wv.read(argv[0])
+    freqs, segTimes, stft = sig.stft(x, fs=samplingFreq)
 
     print(x.shape[0])
 
