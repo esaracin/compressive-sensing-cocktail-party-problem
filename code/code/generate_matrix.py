@@ -41,10 +41,10 @@ def main(argv):
     # Run k-means on column vectors with k = numSources
     kmeans = KMeans(init='k-means++', n_clusters=int(argv[1]))
     kmeans.fit_predict(normalized.T)
-    centers = kmeans.cluster_centers_
+    A = kmeans.cluster_centers_
 
-    print(centers)
-    print(centers.shape)
+    print(A)
+    print(A.shape)
 
 
 if __name__ == '__main__':
