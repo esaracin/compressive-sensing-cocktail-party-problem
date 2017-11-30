@@ -22,19 +22,29 @@ def normalize(v):
     
     return v / norm
 
-def main(argv):
-    
-    if(len(argv) != 1):
-        print('Argument error:\n python soundFile.wav')
+
+
+def main(argv):    
+    if(len(argv) != 2):
+        print('Argument error:\n python soundFile.wav numSources')
         sys.exit(2)
 
     # Read in and apply STFT to our audio signal, x.
     _, x = wv.read(argv[0])
     freqs, segTimes, stft = sig.stft(x)
-    
+
+    print(x.shape[0])
 
     # Normalize the time-frequency representation of x
     normalized = np.apply_along_axis(normalize, 0, stft)
+
+    # Run k-means on column vectors with k = numSources
+    kmeans = KMeans(init='k-means++', n_clusters=int(argv[1]))
+    kmeans.fit_predict(normalized.T)
+    centers = kmeans.cluster_centers_
+
+    print(centers)
+    print(centers.shape)
 
 
 if __name__ == '__main__':
