@@ -12,7 +12,9 @@ function [W,H,cost] = snmf(V, d, varargin)
 %                       'ls': Least squares (default)
 %                       'kl': Kullback Leibler
 %     .W              Initial W, array of size M x d
+%     .H              Initial H, array%     .W              Initial W, array of size M x d
 %     .H              Initial H, array of size d x N 
+ of size d x N 
 %     .lambda         Sparsity weight on H
 %     .updateW        Update W [<on> | off]
 %     .maxiter        Maximum number of iterations (default 100)
@@ -37,17 +39,17 @@ function [W,H,cost] = snmf(V, d, varargin)
 %   [W,H] = snmf(V,d,opts);
 % 
 % Authors:
-%   Mikkel N. Schmidt and Morten Mørup, 
+%   Mikkel N. Schmidt and Morten Mï¿½rup, 
 %   Technical University of Denmark, 
 %   Institute for Matematical Modelling
 %
 % References:
-%   [1] M. Mørup and M. N. Schmidt. Sparse non-negative matrix factor 2-D 
+%   [1] M. Mï¿½rup and M. N. Schmidt. Sparse non-negative matrix factor 2-D 
 %       deconvolution. Technical University of Denmark, 2006.
-%   [2] M. N. Schmidt and M. Mørup. Nonnegative matrix factor 2-D 
+%   [2] M. N. Schmidt and M. Mï¿½rup. Nonnegative matrix factor 2-D 
 %       deconvolution for blind single channel source separation. 
 %       ICA, 2006.
-%   [3] M. N. Schmidt and M. Mørup. Sparse non-negative matrix factor 2-d 
+%   [3] M. N. Schmidt and M. Mï¿½rup. Sparse non-negative matrix factor 2-d 
 %       deconvolution for automatic transcription of polyphonic music. 
 %       Submitted to EURASIP Journal on Applied Signal Processing, 2006.
 %   [4] P. Smaragdis. Non-negative matrix factor deconvolution; 
