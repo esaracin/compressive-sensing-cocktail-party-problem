@@ -15,6 +15,7 @@ import scipy
 import scipy.sparse as sp
 import scipy.signal as sig
 import scipy.io.wavfile as wv
+import sklearn
 from sklearn.cluster import KMeans
 
 def normalize(v):
@@ -57,6 +58,7 @@ def main(argv):
     A = kmeans.cluster_centers_.T
 
     # Use A to construct our mixing matrix, M
+    # Use a windowing procedure so not as to run out of memory
     l = 500
     for i in range(70):
         first_diag = np.zeros(l)
@@ -73,7 +75,8 @@ def main(argv):
         D = learn_dictionary(M.shape[1]) 
 
         MD = M @ D
-
+        sklearn    
+    
 
 if __name__ == '__main__':
     main(sys.argv[1:])
