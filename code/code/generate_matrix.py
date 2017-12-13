@@ -23,18 +23,6 @@ def normalize(v):
     
     return v / norm
 
-
-def buildMatrix(A, t):
-    D = np.zeros(shape=(1,2))
-    for row in range(len(A)):
-        for col in range(len(A[0])):
-            curr = A[row][col]
-
-            to_add = np.zeros((t,t))
-            np.fill_diagonal(to_add, curr)
-            D[row][col] = to_add
-
-
 def main(argv):    
     if(len(argv) != 2):
         print('Argument error:\n python soundFile.wav numSources')
@@ -43,23 +31,29 @@ def main(argv):
     # Read in and apply STFT to our audio signal, x.
     samplingFreq, x = wv.read(argv[0])
     freqs, segTimes, stft = sig.stft(x, fs=samplingFreq)
-    print(freqs.shape)
-    print(segTimes.shape)
-
-    print(stft.shape)
 
     # Normalize the time-frequency representation of x
     normalized = np.apply_along_axis(normalize, 0, stft)
-
+    normalized = normalized.flatten('F').T
+    
     # Run k-means on column vectors with k = numSources
     kmeans = KMeans(init='k-means++', n_clusters=int(argv[1]))
-    kmeans.fit_predict(normalized)
-
+    kmeans.fit_predict(normalized.reshape(-1, 1))
     A = kmeans.cluster_centers_.T
-    print(A.shape)
 
-    A_ = buildMatrix(A, A.shape[0])
+    # Use A to construct our mixing matrix, M
+    first_diag = np.zeros(x.shape[0])
+    second_diag = np.zeros(x.shape[0])
+    
+    first_diag.fill(A[0][0])
+    second_diag.fill(A[0][1])
 
+    first = sp.diags(first_diag)
+    second = sp.diags(second_diag)
+
+    # Combine our matrices to construct M
+    M = sp.hstack((first, second))
+    
 
 if __name__ == '__main__':
     main(sys.argv[1:])
