@@ -47,7 +47,7 @@ def main(argv):
     # Read in and apply STFT to our audio signal, x.
     samplingFreq, x = wv.read(argv[0])
     freqs, segTimes, stft = sig.stft(x, fs=samplingFreq)
-
+    
     # Normalize the time-frequency representation of x
     normalized = np.apply_along_axis(normalize, 0, stft)
     normalized = normalized.flatten('F').T
@@ -59,6 +59,7 @@ def main(argv):
 
     # Use A to construct our mixing matrix, M
     # Use a windowing procedure so not as to run out of memory
+    x = x.reshape(-1, 1)
     l = 500
     for i in range(70):
         first_diag = np.zeros(l)
@@ -75,7 +76,10 @@ def main(argv):
         D = learn_dictionary(M.shape[1]) 
 
         MD = M @ D
-        sklearn    
+        omp = sklearn.linear_model.OrthogonalMatchingPursuit()
+        omp.fit(MD, x[0:l])
+        S = omp.predict(x[0:l])
+        print(S.shape)
     
 
 if __name__ == '__main__':
