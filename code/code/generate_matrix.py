@@ -9,7 +9,9 @@
 #
 
 import sys
+import glob
 import numpy as np
+import scipy
 import scipy.sparse as sp
 import scipy.signal as sig
 import scipy.io.wavfile as wv
@@ -22,6 +24,19 @@ def normalize(v):
         return v
     
     return v / norm
+
+def learn_dictionary(N):
+    '''Learns the Sparsifying Dictionary.''' 
+    I = np.eye(N)
+    D = scipy.fftpack.dct(I)
+    return D
+
+    #path = '../data/training/*'
+    #for filename in glob.iglob(path):
+    #    sampling_freq, x = wv.read(filename)
+
+    #return D
+
 
 def main(argv):    
     if(len(argv) != 2):
@@ -42,18 +57,23 @@ def main(argv):
     A = kmeans.cluster_centers_.T
 
     # Use A to construct our mixing matrix, M
-    first_diag = np.zeros(x.shape[0])
-    second_diag = np.zeros(x.shape[0])
+    l = 500
+    for i in range(70):
+        first_diag = np.zeros(l)
+        second_diag = np.zeros(l)
     
-    first_diag.fill(A[0][0])
-    second_diag.fill(A[0][1])
+        first_diag.fill(A[0][0])
+        second_diag.fill(A[0][1])
 
-    first = sp.diags(first_diag)
-    second = sp.diags(second_diag)
+        first = sp.diags(first_diag)
+        second = sp.diags(second_diag)
 
-    # Combine our matrices to construct M
-    M = sp.hstack((first, second))
-    
+        # Combine our matrices to construct M
+        M = sp.hstack((first, second))
+        D = learn_dictionary(M.shape[1]) 
+
+        MD = M @ D
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])
