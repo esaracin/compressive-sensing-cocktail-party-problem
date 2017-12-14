@@ -90,13 +90,12 @@ def main(argv):
         logger.debug("\t%d : %d" % (idx[i-1], idx[i]))
         omp = sklearn.linear_model.OrthogonalMatchingPursuit()
         omp.fit(MD, x[idx[i-1]:idx[i]])
-        coef = omp.coef_
-        sources = [np.fft.irfftn(coef[(source*l):(source+1)*l], coef[(source*l):(source+1)*l].shape) for source in range(numSources)]
+        coef = D@omp.coef_.reshape(-1,1)
+        sources = [coef[(source*l):(source+1)*l] for source in range(numSources)]
         for sourceIdx in range(numSources):
             logger.debug('\t\trecovered shape {}'.format(recoveredSources[sourceIdx].shape))
             logger.debug('\t\tsources shape {}'.format(sources[sourceIdx].shape))
-            recoveredSources[sourceIdx] = np.concatenate((recoveredSources[sourceIdx], sources[sourceIdx]))
-   
+            recoveredSources[sourceIdx] = np.concatenate((recoveredSources[sourceIdx], sources[sourceIdx].flatten()))
 
     for sourceIdx in range(numSources):
         logger.info("Writing output_%d.wav" % (sourceIdx))
