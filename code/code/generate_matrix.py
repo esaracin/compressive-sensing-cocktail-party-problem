@@ -63,26 +63,26 @@ def learn_dictionary(N):
     return D
 
 def main(argv):    
-    if(len(argv) < 2):
-        print('Argument error:\n python soundFile.wav numSources')
+    if(len(argv) < 3):
+        print('Argument error:\n python soundFile.wav numSources windowSize')
         sys.exit(2)
 
     soundFid = argv[0]
     numSources = int(argv[1])
+    window = int(argv[2])
 
     # Read in and apply STFT to our audio signal, x.
     samplingFreq, x = wv.read(soundFid)
 
     # Use a windowing procedure so not as to run out of memory
     x = x.reshape(-1, 1)
-    l = 500
-    
+
     A = estimateMixtureCoef(x, samplingFreq, numSources)
-    M = constructMixtureMatrix(A, l)
+    M = constructMixtureMatrix(A, window)
     D = learn_dictionary(M.shape[1]) 
     MD = M@D
 
-    idx = [x*l for x in range(math.floor(len(x)/l))]
+    idx = [x*window for x in range(math.floor(len(x)/window))]
     recoveredSources = [np.array([]) for sources in range(numSources)]
 
     logger.info("Beginning recovery for window:")
@@ -91,10 +91,8 @@ def main(argv):
         omp = sklearn.linear_model.OrthogonalMatchingPursuit()
         omp.fit(MD, x[idx[i-1]:idx[i]])
         coef = D@omp.coef_.reshape(-1,1)
-        sources = [coef[(source*l):(source+1)*l] for source in range(numSources)]
+        sources = [coef[(source*window):(source+1)*window] for source in range(numSources)]
         for sourceIdx in range(numSources):
-            logger.debug('\t\trecovered shape {}'.format(recoveredSources[sourceIdx].shape))
-            logger.debug('\t\tsources shape {}'.format(sources[sourceIdx].shape))
             recoveredSources[sourceIdx] = np.concatenate((recoveredSources[sourceIdx], sources[sourceIdx].flatten()))
 
     for sourceIdx in range(numSources):
