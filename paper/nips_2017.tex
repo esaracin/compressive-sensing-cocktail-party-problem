@@ -20,6 +20,7 @@
 \usepackage{amsfonts}       % blackboard math symbols
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
+\usepackage{graphicx}
 
 \title{Applying Compressive Sensing to the Cocktail Party Problem}
 
@@ -63,25 +64,39 @@
   %% \texttt{email} \\
 }
 
+
+
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-  A Compressed Sensing framework to approach blind source separation is proposed. We compare previous attempts, such as non-negative matrix factorization, and convey the potential advantages of Compressive Sensing: namely, it providing a more accurate reconstruction that relies far less on the necessity of learning.
+  A Compressed Sensing framework to approach blind source separation is investigated. We compare previous attempts, such as Nonnegative Matrix Factorization, and convey the potential advantages of Compressive Sensing: namely, it providing a more accurate reconstruction that relies far less on the necessity of learning.
 \end{abstract}
 
 \section{Introduction}
 The applications of the Cocktail Party Problem are far-reaching: from surveying and separating radio signals, to imagining and examining neural signals, source separation plays an important role in an ever-expanding number of fields. An efficient approach to solving the Problem, then, has implications that extend far beyond the realm of Computer Science. 
 
-Past techniques have relied largely on the learning of a specific dictionary, and using this dictionary to reconstruct 
+Past techniques applied to solve this problem have, at a high level, relied largely on the learning of a specific dictionary, and the utilization of this dictionary to reconstruct distinct signals from potentially mixed sources. One such approach is Nonnegative Matrix Factorization, hereby NMF. As suggested, this method implies that prior information about speech sources is known in order to work properly, and, perhaps even more to its detriment, does not provide a well-defined solution in the case of over-complete dictionaries, which are so often utilized in the Compressive Sensing framework to minimize the number of measurements needed to reconstruct a given signal. (cite 3) The NMF problem statement can be given as follows: 
+
+\begin{figure}[h!]
+	\includegraphics[width=\linewidth]{NMF.png}
+	\label{Nonnegative Matrix Factorization}
+\end{figure}
+
+
+Notably, the problem statement is not totally dissimilar to that of the standard Compressive Sensing model, albeit with some minor differences. 
+
 History and theory
 
-Using Compressive Sensing, along with an assumption of sparsity, the Problem can be framed as a sparse signal recovery problem, and is solvable using any one of several greedy algorithms. Specifically, we use Orthogonal Matching Pursuit to reconstruct the separate sparse signals.
+Using Compressive Sensing, we can model this problem in a new light. To do this, we first have make an assumption of sparsity; that is, in analyzing a mixed audio signal, at any given instant in time, we must assume that noise is coming from only a single source. In this way, the {\it frequency} domain of a mixed signal will be sparse, even if it should be the case that the the signal is quite robust in the time domain. With this assumption, we can frame the problem can be as a case of sparse signal recovery, and is solvable using any one of several greedy algorithms. Specifically, we use Orthogonal Matching Pursuit to reconstruct the separate sparse signals.
 
 
+\section{Methods}
 Methods section (use paper)
 
+
+\section{Results}
 results (comparison to other techniques (ICA))
 
 % \section{Submission of papers to NIPS 2017}
@@ -402,10 +417,7 @@ T.K.\ Leen (eds.), {\it Advances in Neural Information Processing
   Exploring Realistic Neural Models with the GEneral NEural SImulation
   System.}  New York: TELOS/Springer--Verlag.
 
-[3] Hasselmo, M.E., Schnell, E.\ \& Barkai, E.\ (1995) Dynamics of
-learning and recall at excitatory recurrent synapses and cholinergic
-modulation in rat hippocampal region CA3. {\it Journal of
-  Neuroscience} {\bf 15}(7):5249-5262.
+[3] Schmidt, Mikkel N. and Rasmus Kongsgaard Olsson. “Single-channel speech separation using sparse non-negative matrix factorization.” {\it INTERSPEECH} (2006).
 
 [4] BAO, G., YE, Z., XU, X. AND ZHOU, Y.
 {\it A Compressed Sensing Approach to Blind Separation of Speech Mixture Based on a Two-Layer Sparsity Model} - IEEE Journals \& Magazine Bao, G., Ye, Z., Xu, X. and Zhou, Y. (2017). A Compressed Sensing Approach to Blind Separation of Speech Mixture Based on a Two-Layer Sparsity Model - IEEE Journals \& Magazine. [online] Ieeexplore.ieee.org. Available at: http://ieeexplore.ieee.org/document/6384713/
