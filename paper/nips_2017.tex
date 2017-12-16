@@ -21,6 +21,7 @@
 \usepackage{nicefrac}       % compact symbols for 1/2, etc.
 \usepackage{microtype}      % microtypography
 \usepackage{graphicx}
+\usepackage{amsmath}
 
 \title{Applying Compressive Sensing to the Cocktail Party Problem}
 
@@ -71,7 +72,7 @@
 \maketitle
 
 \begin{abstract}
-  A Compressed Sensing framework to approach blind source separation is investigated. We compare previous attempts, such as Nonnegative Matrix Factorization, and convey the potential advantages of Compressive Sensing: namely, it providing a more efficient reconstruction that relies far less on the necessity of learning.
+  A Compressed Sensing framework to approach blind source separation is investigated. We compare previous attempts, such as Nonnegative Matrix Factorization and Independent Component Analysis, and convey the potential advantages of Compressive Sensing: namely, it providing a more efficient reconstruction that relies far less on the necessity of learning.
 \end{abstract}
 
 \section{Introduction}
@@ -104,21 +105,34 @@ While solving this problem subject to the minimization the $L_{0}$ norm of \text
 In the coming sections, we will describe in more detail the compressive sensing approach used and it's computational benefits over such techniques as NMF, as well as some of its own shortcomings.
 
 
-\section{Methods}
+\section{Method}
 The following is an overview of the algorithmic steps we take in applying Compressive Sensing to the Cocktail Party problem to reconstruct distinct signals from mixed input sources.
 
-In keeping with our assumption of a frequency-sparse input signal, the first step we take is to compute the Short-time Fourier transform of our source signal in order to cast it into its time-frequency domain. Shown below is a figure that demonstrates the utility of this transformation: an input signal that was original robust becomes relatively sparse, with distinct structure forming along specific axes.
+In the following steps, we'll assume we have a mixed signal of size \textit{T}. That is, there are \textit{T} discrete time instants over which our signal is heard.
+
+In keeping with our assumption of a frequency-sparse input signal, the first step we take is to compute the Short-time Fourier transform of our source signal in order to cast it into its time-frequency domain. Shown below is a figure that demonstrates the utility of this transformation: an input signal that was originally robust becomes relatively sparse, with distinct structure forming along specific axes.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=180pt, height=220pt]{transform_domain.png}
-	\caption{Above, a mixed signal in the Time domain. Below, in the Transform domain}
+	\caption{Above, a mixed signal in the Time domain. Below, in the Transform domain \textbf{[1]}}
 	\label{Signal in each Domain}
 \end{figure}
 
-In particular, notice the sp
+It now becomes our job to generate a mixing matrix, defined as \textbf{A} in the Introduction's problem statement, in order to create a mixture of signals, \textbf{X}, that is able to be used in the reconstruction. The first step in this process it to apply k-means clustering to the normalized STFT computed in the previous step. By setting \textit{k} to the number of original sources we hope to separate, we are able to effectively partition the frequency domain of the transformed signal along the axes defined in the above figure.
 
-Methods section (use paper)
+Next, we use the one-dimensional cluster centers computed from the run of k-means to construct the mixing matrix. We'll define the following notation to express this process:
+
+Let $C = \left( \begin{smallmatrix} c_{1}&c_{2}&...&c_{\textit{k}} \end{smallmatrix} \right)$ be the cluster centers previously computed. 
+
+Let \textit{$L_{i}$} be a \textit{T} x \textit{T} diagonal matrix, of which there are \textit{k}, and whose diagonal entries are equivalent to the corresponding \textit{$i^{th}$} entry of \textit{C} as defined above.
+ 
+We can finally define the mixing matrix \textit{M}, then, by concatenating these matrices horizontally, as follows: $M = \left( \begin{smallmatrix} L_{1}&L_{2}&...&L_{\textit{k}}  \end{smallmatrix} \right)$
+
+(explain use of DCT to complete dictionary)
+
+In practice, a windowing method is used in this process of matrix construction, as the dimensionality of the input signal, \textit{T}, can often be quite high, and the matrices described, then, can be quite large. Choosing some \textit{l} such that you compute the mixing matrix in \textit{l} x \textit{l} sections, and use it to reconstruct partial signals in a sectionalized way is a viable strategy, and it is what we employed in our tests.
+
 
 
 \section{Results}
