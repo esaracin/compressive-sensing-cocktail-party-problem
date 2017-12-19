@@ -129,14 +129,18 @@ Let \textit{$L_{i}$} be a \textit{T} x \textit{T} diagonal matrix, of which ther
  
 We can finally define the mixing matrix \textit{M}, then, by concatenating these matrices horizontally, as follows: $M = \left( \begin{smallmatrix} L_{1}&L_{2}&...&L_{\textit{k}}  \end{smallmatrix} \right)$
 
-(explain use of DCT to complete dictionary)
+As a final preparatory step, we multiply this matrix, \textit{M}, by a \textit{T} x \textit{T} DCT matrix to further sparsify the high-frequency components of human speech \textbf{[2]}. With this step, the preparation of our problem is complete, and the reconstruction of our separated signals can begin.
 
-In practice, a windowing method is used in this process of matrix construction, as the dimensionality of the input signal, \textit{T}, can often be quite high, and the matrices described, then, can be quite large. Choosing some \textit{l} such that you compute the mixing matrix in \textit{l} x \textit{l} sections, and use it to reconstruct partial signals in a sectionalized way is a viable strategy, and it is what we employed in our tests.
+In practice, the reconstruction is often performed using a windowing method,as the dimensionality of the input signal, \textit{T}, can often be quite high, and the matrices described, then, can be quite large. Choosing some \textit{l} such that you compute the mixing matrix in \textit{l} x \textit{l} sections, and use it to reconstruct partial signals in a sectionalized way is a viable strategy, and it is what we employed in our reconstructions.
 
+At each windowing phase, we perform Orthogonal Matching Pursuit to reconstruct the portion of the signal responsible for the window being processed. The concatenation of these windows together, then, yields the full, separated, original signal.
 
 
 \section{Results}
-results (comparison to other techniques (ICA))
+In this section, we review the results of our reconstruction and compare it to other common methods of blind source separation, analyzing the optimal window.
+
+calculate psnr for each window size, maybe chart for best reconstruction?
+results (comparison to other techniques (ICA) and NMF)
 
 % \section{Submission of papers to NIPS 2017}
 % 
