@@ -12,7 +12,7 @@ The following Python packages are utilized in the scripts provided in the 'code/
 
 ## Usage
 reconstrut_signal.py:
-	Main utility script for reading in a mixed signal and writing its separated and reconstructed output signals to local directory. Take 3 parameters:
+	Main utility script for reading in a mixed signal and writing its separated and reconstructed output signals to the local directory. Take 3 parameters:
 
 		path/to/soundFile.wav: a relative or absolute path to a mixed sound to be read in and separated
 		numSources: the number of distinct sources in that sound file (i.e. the number of distinct output files containing separated audio)
