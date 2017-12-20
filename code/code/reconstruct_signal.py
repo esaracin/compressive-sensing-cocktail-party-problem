@@ -17,6 +17,7 @@ import scipy.sparse as sp
 import scipy.signal as sig
 import scipy.io.wavfile as wv
 import sklearn
+from sklearn.decomposition import FastICA, PCA
 from sklearn.cluster import KMeans
 
 def normalize(v):
@@ -61,6 +62,22 @@ def learn_dictionary(N):
     D = scipy.fftpack.dct(I)
     return D
 
+
+def ICA_analysis(X, numSources, samplingFreq):
+    '''Performs ICA to separate the mixed signal, X.''' 
+
+    X = X.reshape(-1, 1)
+    X = np.transpose(X)
+    X = np.nan_to_num(X)
+
+
+    print(X.shape)
+    ica = FastICA(n_components=numSources)
+    S_ = ica.fit_transform(X)  # Reconstruct signals
+
+    return S_
+
+
 def main(argv):    
     if(len(argv) < 3):
         print('Argument error:\n python soundFile.wav numSources windowSize')
@@ -72,15 +89,23 @@ def main(argv):
 
     # Read in and apply STFT to our audio signal, x.
     samplingFreq, x = wv.read(soundFid)
-
+    
+    # Compute ICA to compare to results
+    ica_sources = ICA_analysis(x, numSources, samplingFreq)
+    print(ica_sources.shape)
+    print(ica_sources)
+    
     # Use a windowing procedure so not as to run out of memory
     x = x.reshape(-1, 1)
+    
+
+
 
     A = estimateMixtureCoef(x, samplingFreq, numSources)
     M = constructMixtureMatrix(A, window)
     D = learn_dictionary(M.shape[1]) 
     MD = M@D
-
+    
     idx = [x*window for x in range(math.floor(len(x)/window))]
     recoveredSources = [np.array([]) for sources in range(numSources)]
 
