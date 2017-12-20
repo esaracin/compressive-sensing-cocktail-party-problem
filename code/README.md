@@ -1,6 +1,6 @@
 # Cocktail Party Problem Code
 
-## Dependencies
+## Development
 The following Python packages are utilized in the scripts provided in the 'code/' subdirectory. Python 3 is expected to run all code:
 
 	logging: to provide useful debugging information
@@ -8,7 +8,7 @@ The following Python packages are utilized in the scripts provided in the 'code/
 	scipy: for sparse matrix representation, as well as the reading in and writing of .wav files
 	sklearn: for k-means clustering as well as Orthogonal Matching Pursuit
 
-## Development
+Additionally, one file, snmf.m, which we used for comparative purposes, is runnable only in MATLAB.
 
 ## Usage
 reconstruct_signal.py:
@@ -19,3 +19,8 @@ reconstruct_signal.py:
 		windowSize: the size of the patches used to reconstruct the signals during the OMP portion of the code.
 
 		python3 reconstruct_signal.py ../data/mixes/eastwood_graham_mix.wav 2 500		
+
+sox:
+	The command line program sox was used to mix two .wav files into an single output .wav file, as below. 
+
+		sox -m path/to/first.wav path/to/second.wav output.wav 
