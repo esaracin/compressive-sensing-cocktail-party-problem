@@ -14,8 +14,8 @@ The following Python packages are utilized in the scripts provided in the 'code/
 reconstruct_signal.py:
 	Main utility script for reading in a mixed signal and writing its separated and reconstructed output signals to the local directory. Take 3 parameters:
 
-		path/to/soundFile.wav: a relative or absolute path to a mixed sound to be read in and separated
-		numSources: the number of distinct sources in that sound file (i.e. the number of distinct output files containing separated audio)
+		path/to/soundFile.wav: a relative or absolute path to a mixed sound .wav file to be read in and separated
+		numSources: the number of distinct sources in that sound file (i.e. the number of distinct output files to be written containing separated audio)
 		windowSize: the size of the patches used to reconstruct the signals during the OMP portion of the code.
 
 		python3 reconstruct_signal.py ../data/mixes/eastwood_graham_mix.wav 2 500		
