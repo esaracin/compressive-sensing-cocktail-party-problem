@@ -59,13 +59,13 @@
 \maketitle
 
 \begin{abstract}
-  A Compressed Sensing framework to approach blind source separation is investigated. We compare previous attempts, such as Nonnegative Matrix Factorization and Independent Component Analysis, and convey the potential advantages of Compressive Sensing: namely, it providing a more efficient reconstruction that relies far less on the necessity of learning.
+  A Compressed Sensing framework to approach blind source separation is investigated. We compare previous attempts, such as Nonnegative Matrix Factorization and Independent Component Analysis, and convey the potential advantages and drawbacks of the Compressed Sensing approach: namely, that while it provides a more efficient reconstruction that relies less on the necessity of learning, the signal separation itself is underwhelming.
 \end{abstract}
 
 \section{Introduction}
 The applications of the Cocktail Party Problem are far-reaching: from surveying and separating radio signals, to imagining and examining neural signals in a medical setting, source separation plays an important role in an ever-expanding number of fields. An efficient approach to solving the Problem, then, has implications that extend far beyond the realm of Computer Science. 
 
-Past techniques applied to solve this problem have, at a high level, relied largely on the learning of a specific dictionary, and the utilization of this dictionary to reconstruct distinct signals from potentially mixed sources. One such approach is Nonnegative Matrix Factorization, hereby NMF. As suggested, this method implies that prior information about speech sources is known in order to work properly, and, perhaps even more to its detriment, does not provide a well-defined solution in the case of over-complete dictionaries, which are so often utilized in the Compressive Sensing framework to minimize the number of measurements needed to reconstruct a given signal. \textbf{[1]} The NMF problem statement effectively tries to optimize the following cost function: 
+Past techniques applied to solve this problem have, at a high level, relied on the learning of a specific dictionary, and the utilization of this dictionary to reconstruct distinct signals from potentially mixed sources. One such approach is Nonnegative Matrix Factorization, hereby NMF. As suggested, this method implies that prior information about speech sources is known in order to work properly, and, perhaps even more to its detriment, does not provide a well-defined solution in the case of over-complete dictionaries, which are so often utilized in the Compressive Sensing framework to minimize the number of measurements needed to reconstruct a given signal. \textbf{[1]} The NMF problem statement effectively tries to optimize the following cost function: 
 
 \begin{figure}[H]
 	\centering
@@ -124,27 +124,27 @@ At each windowing phase, we perform Orthogonal Matching Pursuit to reconstruct t
 
 
 \section{Results}
-In this section, we review the results of our reconstruction and compare it to other common methods of blind source separation. The main .wav file used for the tests was a mixture of Clint Eastwood and Graham speaking over each other. Other samples included data from the Interspeech 2006 source separation challenge, and are constructed of concise sentences following the same generally structure. The source .wav files were combined using the sox command line program. 
+In this section, we review the results of our reconstruction and compare it to other common methods of blind source separation. The main .wav file used for the tests was a mixture of Clint Eastwood and Graham speaking over each other. Other samples included data from the Interspeech 2006 source separation challenge, and are comprised of concise sentences following the same general structure. The source .wav files were combined using the sox command line program. 
 
-In practice, the results of using Compressive Sensing for blind source separation were underwhelming. The plots below depict the signal to noise ratio of our approach. In general, Independent Component Analysis, an industry standard of addressing the problem of blind source separation, is known to significantly outperform these results.
-
-
-It's worth noting that
-
-As can be seen, ICA provides a more accurate recovery than the Compressed Sensing approach, 
+In practice, the results of using Compressive Sensing for blind source separation were underwhelming. The figures below depict both the original, mixed, signal, and the resulting signals following the Compressed Sensing framework. In general, Independent Component Analysis (ICA), an industry standard of addressing the problem of blind source separation, is known to significantly outperform these results.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{figs/Mixed" "Data.png}
-  \caption{Sample figure caption.}
+  \caption{Original Signal}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \subfigure[]{\includegraphics[width=0.49\linewidth]{figs/Recovered" "Source" "1.png}}
   \subfigure[]{\includegraphics[width=0.49\linewidth]{figs/Recovered" "Source" "2.png}}
-  \caption{Sample figure caption.}
+  \caption{Separated Sources}
 \end{figure}
+
+While these results are less than ideal, its worth noting that, though ICA provides more accurate source separation, it requires more a priori information to perform its separation than the Compressed Sensing approach. Namely, the number of measurements of the mixed signal must be at least equal to the number of distinct sources \textit{in} that signal. In our framework, only a single measurement is necessary to attempt a separation.
+
+The Cocktail Party Problem continues to be a fascinating and challenging problem today. It is clear from these experiments that, even with innovations such as Compressed Sensing, there is much work left to do to achieve perfect blind source separation.
+
 
 \section*{References}
 
