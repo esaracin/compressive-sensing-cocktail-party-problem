@@ -20,6 +20,11 @@ reconstruct_signal.py:
 
 		python3 reconstruct_signal.py ../data/mixes/eastwood_graham_mix.wav 2 500		
 
+data/:
+
+	Any mixes used for testing, along with their ground truths, are located in this directory. Mixes include Eastwood and Graham talking over each other, as well as several
+	samples from the Interspeech 2006 Source Separation Competition. 
+
 sox:
 	The command line program sox was used to mix two .wav files into an single output .wav file, as below. 
 
