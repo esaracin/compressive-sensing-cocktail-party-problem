@@ -8,7 +8,7 @@ The following Python packages are utilized in the scripts provided in the 'code/
 	scipy: for sparse matrix representation, as well as the reading in and writing of .wav files
 	sklearn: for k-means clustering as well as Orthogonal Matching Pursuit
 
-Additionally, one file, snmf.m, which we used for comparative purposes, is runnable only in MATLAB.
+Additionally, one file, plot_snr.m, which we used to plot our reconstructed signal's signal-to-noise ratio, is runnable only in MATLAB.
 
 ## Usage
 reconstruct_signal.py:
@@ -19,6 +19,8 @@ reconstruct_signal.py:
 		windowSize: the size of the patches used to reconstruct the signals during the OMP portion of the code.
 
 		python3 reconstruct_signal.py ../data/mixes/eastwood_graham_mix.wav 2 500		
+snr.m:
+	MATLAB script to plot signal-to-noise ratios for each of our test separations. Writes plots to local directory.
 
 sox:
 	The command line program sox was used to mix two .wav files into an single output .wav file, as below. 
