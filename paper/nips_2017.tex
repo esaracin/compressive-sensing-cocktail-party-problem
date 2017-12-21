@@ -22,6 +22,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{float}
 
 \title{Applying Compressive Sensing to the Cocktail Party Problem}
 
@@ -80,9 +81,9 @@ The applications of the Cocktail Party Problem are far-reaching: from surveying 
 
 Past techniques applied to solve this problem have, at a high level, relied largely on the learning of a specific dictionary, and the utilization of this dictionary to reconstruct distinct signals from potentially mixed sources. One such approach is Nonnegative Matrix Factorization, hereby NMF. As suggested, this method implies that prior information about speech sources is known in order to work properly, and, perhaps even more to its detriment, does not provide a well-defined solution in the case of over-complete dictionaries, which are so often utilized in the Compressive Sensing framework to minimize the number of measurements needed to reconstruct a given signal. \textbf{[1]} The NMF problem statement effectively tries to optimize the following cost function: 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=250pt]{NMF.png}
+	\includegraphics[width=250pt]{figs/NMF.png}
 	\label{Nonnegative Matrix Factorization}
 \end{figure}
 
@@ -92,9 +93,9 @@ Notably, the problem statement is not totally dissimilar to that of the standard
 
 With the advent of Compressive Sensing, however, we can model this problem in a new light. To do this, we first have make an assumption of sparsity; that is, in analyzing a mixed audio signal, at any given instant in time, we must assume that noise is coming from only a single source. In this way, the {\it frequency} domain of a mixed signal will be sparse, even if it should be the case that the the signal is quite robust in the time domain. With this assumption, we can frame the problem as a case of sparse signal recovery, defined as follows:
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=94pt, height=15pt]{compressive.png}
+	\includegraphics[width=94pt, height=15pt]{figs/compressive.png}
 	\label{Compressive Sensing Problem Statement}
 \end{figure}
 
@@ -112,9 +113,9 @@ In the following steps, we'll assume we have a mixed signal of size \textit{T}. 
 
 In keeping with our assumption of a frequency-sparse input signal, the first step we take is to compute the Short-time Fourier transform of our source signal in order to cast it into its time-frequency domain. Shown below is a figure that demonstrates the utility of this transformation: an input signal that was originally robust becomes relatively sparse, with distinct structure forming along specific axes.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=180pt, height=220pt]{transform_domain.png}
+	\includegraphics[width=180pt, height=220pt]{figs/transform_domain.png}
 	\caption{Above, a mixed signal in the Time domain. Below, in the Transform domain \textbf{[1]}}
 	\label{Signal in each Domain}
 \end{figure}
@@ -141,6 +142,24 @@ In this section, we review the results of our reconstruction and compare it to o
 
 calculate psnr for each window size, maybe chart for best reconstruction?
 results (comparison to other techniques (ICA) and NMF)
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{figs/Mixed" "Data.png}
+  \caption{Sample figure caption.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{figs/Recovered" "Source" "1.png}
+  \caption{Sample figure caption.}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{figs/Recovered" "Source" "2.png}
+  \caption{Sample figure caption.}
+\end{figure}
 
 % \section{Submission of papers to NIPS 2017}
 % 
