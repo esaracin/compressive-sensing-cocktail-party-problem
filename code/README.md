@@ -8,7 +8,7 @@ The following Python packages are utilized in the scripts provided in the 'code/
 	scipy: for sparse matrix representation, as well as the reading in and writing of .wav files
 	sklearn: for k-means clustering as well as Orthogonal Matching Pursuit
 
-Additionally, one file, snmf.m, which we used for comparative purposes, is runnable only in MATLAB.
+Additionally, one file, plot_snr.m, which we used to plot our reconstructed signal's signal-to-noise ratio, is runnable only in MATLAB.
 
 ## Usage
 reconstruct_signal.py:
