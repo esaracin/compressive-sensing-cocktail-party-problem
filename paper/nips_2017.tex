@@ -128,10 +128,12 @@ In practice, the results of using Compressive Sensing for blind source separatio
 
 \begin{figure}[H]
   \centering
-  \subfigure[]{\includegraphics[width=0.49\linewidth]{figs/Recovered" "Source" "1.png}}
-  \subfigure[]{\includegraphics[width=0.49\linewidth]{figs/Recovered" "Source" "2.png}}
+  \subfigure[SNR: -17.926]{\includegraphics[width=0.49\linewidth]{figs/Recovered" "Source" "1.png}}
+  \subfigure[SNR: -19.863]{\includegraphics[width=0.49\linewidth]{figs/Recovered" "Source" "2.png}}
   \caption{Separated Sources}
 \end{figure}
+
+Unfortunately these power spectrums shows the lower frequencies of the separated sourcs absolutely dominating. This is an indication that the noise tends to overpower any separation found in the proposed method. Comparing he magnitude of the recovered sources to that of the original signal shows this noise is much more prominent in the recovered. Thus our algorithm tends to be highly sensitive to any noise of the original signal. SNR being negative is also another indicative factor of the separation not going smoothly. 
 
 While these results are less than ideal, its worth noting that, though ICA provides more accurate source separation, it requires more a priori information to perform its separation than the compressed sensing approach. Namely, the number of measurements of the mixed signal must be at least equal to the number of distinct sources \textit{in} that signal. In our framework, only a single measurement is necessary to attempt a separation.
 
