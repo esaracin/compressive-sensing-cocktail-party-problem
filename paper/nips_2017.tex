@@ -25,7 +25,7 @@
 \usepackage{float}
 \usepackage{subfigure}
 
-\title{Applying Compressive Sensing to the Cocktail Party Problem}
+\title{A Compressive Sensing Framework for Solving the Cocktail Party Problem}
 
 % The \author macro works with any number of authors. There are two
 % commands used to separate the names and addresses of multiple
@@ -59,31 +59,23 @@
 \maketitle
 
 \begin{abstract}
-  A Compressed Sensing framework to approach blind source separation is investigated. We compare previous attempts, such as Nonnegative Matrix Factorization and Independent Component Analysis, and convey the potential advantages and drawbacks of the Compressed Sensing approach: namely, that while it provides a more efficient reconstruction that relies less on the necessity of learning, the signal separation itself is underwhelming.
+    This paper aims to propose a solution to the cocktail party problem via framing the problem in a compressive sensing setting. The solution proposed is based on the assumption voices are generally non-overlapping in a mixed measurement for a small enough time window and that voices in general only take on a set amount of frequencies. As a result the mixing matrix can be learned in this sparse domain in hopes of reversing the mixing of the sources. Additionally a dictionary for the sparse representation of the signal must be learned, thus we define a way to retrieve this mixing and sampling matrix in this paper.
 \end{abstract}
 
 \section{Introduction}
-The applications of the Cocktail Party Problem are far-reaching: from surveying and separating radio signals, to imagining and examining neural signals in a medical setting, source separation plays an important role in an ever-expanding number of fields. An efficient approach to solving the Problem, then, has implications that extend far beyond the realm of Computer Science. 
+Human beings are excellent at being able to separate sound sources. Given our binaural hearing, we are able to easily tune out and focus on one voice within a group of many. One of the biggest open problems in signal processing is asking if it's possible to mimic this phenomenon on paper. This problem, of separating a single signal source from many is otherwise known as the Cocktail Party problem. Solutions to the Cocktail Party Problem could provide innovate a multitude of disciplines: from surveying and separating radio signals, to imagining and examining neural signals in a medical setting, source separation plays an important role in an ever-expanding number of fields. 
 
-Past techniques applied to solve this problem have, at a high level, relied on the learning of a specific dictionary, and the utilization of this dictionary to reconstruct distinct signals from potentially mixed sources. One such approach is Nonnegative Matrix Factorization, hereby NMF. As suggested, this method implies that prior information about speech sources is known in order to work properly, and, perhaps even more to its detriment, does not provide a well-defined solution in the case of over-complete dictionaries, which are so often utilized in the Compressive Sensing framework to minimize the number of measurements needed to reconstruct a given signal. \textbf{[1]} The NMF problem statement effectively tries to optimize the following cost function: 
+Past techniques applied to solve this problem have, at a high level, relied on the learning of a specific dictionary, and the utilization of this dictionary to reconstruct distinct signals from potentially mixed sources. One such approach is Nonnegative Matrix Factorization (NMF). As suggested, this method implies that prior information about speech sources is known in order to work properly, and, perhaps even more to its detriment, does not provide a well-defined solution in the case of over-complete dictionaries, which are so often utilized in the compressive sensing framework to minimize the number of measurements needed to reconstruct a given signal. \textbf{[1]} The NMF problem statement effectively tries to optimize the following cost function: 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=250pt]{figs/NMF.png}
-	\label{Nonnegative Matrix Factorization}
-\end{figure}
+$$ E = ||\textbf{Y} - \bar{\textbf{D}}\textbf{H}||^{2}_{F} + \lambda\sum\limits_{ij}\textbf{H}_{ij}\ \text{s.t}\ \textbf{D,H} \ge 0 $$
 
-where \textbf{$\bar{D}$} is a column-wise normalized dictionary matrix and \textbf{H} is the sparse solution upon which an $L_{1}$ norm penalty is induced. In keeping with the theme of NMF, both $\bar{D}$ and \textbf{H} must be nonnegative. In the above statement, $\lambda$ is a parameter that controls the degree of sparsity.
+where $\bar{\textbf{D}}$ is a column-wise normalized dictionary matrix and \textbf{H} is the sparse solution upon which an $L_{1}$ norm penalty is induced. In keeping with the theme of NMF, both $\bar{D}$ and \textbf{H} must be nonnegative. In the above statement, $\lambda$ is a parameter that controls the degree of sparsity.
 
-Notably, the problem statement is not totally dissimilar to that of the standard Compressive Sensing model, albeit with some minor differences. For example, the dictionary $\bar{D}$ must be learned, usually by training on a large dataset of a single speaker. This, of course, sacrifices efficiency and casts the framework of the reconstruction as a learning problem.  
+Notably, the problem statement is not totally dissimilar to that of the standard compressive sensing model, albeit with some minor differences. For example, the dictionary $\bar{D}$ must be learned, usually by training on a large dataset of a single speaker. This, of course, sacrifices efficiency and casts the framework of the reconstruction as a learning problem.  
 
-With the advent of Compressive Sensing, however, we can model this problem in a new light. To do this, we first have make an assumption of sparsity; that is, in analyzing a mixed audio signal, at any given instant in time, we must assume that noise is coming from only a single source. In this way, the {\it frequency} domain of a mixed signal will be sparse, even if it should be the case that the the signal is quite robust in the time domain. With this assumption, we can frame the problem as a case of sparse signal recovery, defined as follows:
+With the advent of Compressive Sensing, however, we can model this problem in a new light. To do this, we first have make an assumption of sparsity; that is, in analyzing a mixed audio signal, at any given instant in time, we must assume that noise is coming from only a single source. For example, if the mixed signal is a bunch of voices, at any infintesimal time window only one voice is active. In this way, the {\it frequency} domain of a mixed signal will be sparse, even if it should be the case that the the signal is quite robust in the time domain. With this assumption, we can frame the problem as a case of sparse signal recovery, defined as follows:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=94pt, height=15pt]{figs/compressive.png}
-	\label{Compressive Sensing Problem Statement}
-\end{figure}
+$$ x(t) = \textbf{A}s(t) $$
 
 where \textbf{S} is our set of source signals and \textbf{X} is a mixture of these signals as determined by our mixing matrix, \textbf{A}. As we will go on to show, determining \textbf{A} becomes a key step in the Compressive Sensing approach to solving the problem.
 
@@ -93,7 +85,7 @@ In the coming sections, we will describe in more detail the compressive sensing 
 
 
 \section{Method}
-The following is an overview of the algorithmic steps we take in applying Compressive Sensing to the Cocktail Party problem to reconstruct distinct signals from mixed input sources.
+The following is an overview of the algorithmic steps we take in applying compressive sensing to the Cocktail Party problem to reconstruct distinct signals from mixed input sources.
 
 In the following steps, we'll assume we have a mixed signal of size \textit{T}. That is, there are \textit{T} discrete time instants over which our signal is heard.
 
@@ -141,10 +133,12 @@ In practice, the results of using Compressive Sensing for blind source separatio
   \caption{Separated Sources}
 \end{figure}
 
-While these results are less than ideal, its worth noting that, though ICA provides more accurate source separation, it requires more a priori information to perform its separation than the Compressed Sensing approach. Namely, the number of measurements of the mixed signal must be at least equal to the number of distinct sources \textit{in} that signal. In our framework, only a single measurement is necessary to attempt a separation.
+While these results are less than ideal, its worth noting that, though ICA provides more accurate source separation, it requires more a priori information to perform its separation than the compressed sensing approach. Namely, the number of measurements of the mixed signal must be at least equal to the number of distinct sources \textit{in} that signal. In our framework, only a single measurement is necessary to attempt a separation.
 
-The Cocktail Party Problem continues to be a fascinating and challenging problem today. It is clear from these experiments that, even with innovations such as Compressed Sensing, there is much work left to do to achieve perfect blind source separation.
+The Cocktail Party Problem continues to be a fascinating and challenging problem today. It is clear from these experiments that, even with innovations such as compressed sensing, there is much work left to do to achieve perfect blind source separation.
 
+\section*{Conclusion}
+This study provides an indepth analysiso on one possible technique for solving the Cocktail Party problem. Unfortunately results show this method is not as robust and provides poor results. In general standard optimization techniques or componenet analysis techniques may provide a better alternative. The problem stems from a model that relies heavily on too much inference off of a small amounts of data. Althought the compressive sensing framework gives us theoretical bounds on the information needed to recover a signal, there exist still complications in implementation as speech may not follow all the necessary assumptions. 
 
 \section*{References}
 
