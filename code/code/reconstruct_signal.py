@@ -66,15 +66,15 @@ def learn_dictionary(N):
 def ICA_analysis(X, numSources, samplingFreq):
     '''Performs ICA to separate the mixed signal, X.''' 
 
-    X = X.reshape(-1, 1)
-    X = np.transpose(X)
+    X = X.T
     X = np.nan_to_num(X)
 
-
-    print(X.shape)
     ica = FastICA(n_components=numSources)
     S_ = ica.fit_transform(X)  # Reconstruct signals
 
+    print(S_.shape)
+    print(S_)
+    
     return S_
 
 
@@ -89,17 +89,16 @@ def main(argv):
 
     # Read in and apply STFT to our audio signal, x.
     samplingFreq, x = wv.read(soundFid)
+
+    # Simulate second measurement
+    x_2 = (1.3 * x).T 
+    X = np.column_stack((x.T, x_2))
     
     # Compute ICA to compare to results
-    ica_sources = ICA_analysis(x, numSources, samplingFreq)
-    print(ica_sources.shape)
-    print(ica_sources)
+    #ICA_analysis(X, numSources, samplingFreq)
     
     # Use a windowing procedure so not as to run out of memory
     x = x.reshape(-1, 1)
-    
-
-
 
     A = estimateMixtureCoef(x, samplingFreq, numSources)
     M = constructMixtureMatrix(A, window)

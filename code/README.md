@@ -19,11 +19,8 @@ reconstruct_signal.py:
 		windowSize: the size of the patches used to reconstruct the signals during the OMP portion of the code.
 
 		python3 reconstruct_signal.py ../data/mixes/eastwood_graham_mix.wav 2 500		
-
-data/:
-
-	Any mixes used for testing, along with their ground truths, are located in this directory. Mixes include Eastwood and Graham talking over each other, as well as several
-	samples from the Interspeech 2006 Source Separation Competition. 
+snr.m:
+	MATLAB script to plot signal-to-noise ratios for each of our test separations. Writes plots to local directory.
 
 sox:
 	The command line program sox was used to mix two .wav files into an single output .wav file, as below. 

@@ -88,7 +88,7 @@ Past techniques applied to solve this problem have, at a high level, relied larg
 
 where \textbf{$\bar{D}$} is a column-wise normalized dictionary matrix and \textbf{H} is the sparse solution upon which an $L_{1}$ norm penalty is induced. In keeping with the theme of NMF, both $\bar{D}$ and \textbf{H} must be nonnegative. In the above statement, $\lambda$ is a parameter that controls the degree of sparsity.
 
-Notably, the problem statement is not totally dissimilar to that of the standard Compressive Sensing model, albeit with some minor differences. For example, the dictionary $\bar{D}$ must be learned, usually by training on a large dataset of a single speaker. This, of course, sacrifices efficiency and casts framework of the reconstruction as a learning problem.  
+Notably, the problem statement is not totally dissimilar to that of the standard Compressive Sensing model, albeit with some minor differences. For example, the dictionary $\bar{D}$ must be learned, usually by training on a large dataset of a single speaker. This, of course, sacrifices efficiency and casts the framework of the reconstruction as a learning problem.  
 
 With the advent of Compressive Sensing, however, we can model this problem in a new light. To do this, we first have make an assumption of sparsity; that is, in analyzing a mixed audio signal, at any given instant in time, we must assume that noise is coming from only a single source. In this way, the {\it frequency} domain of a mixed signal will be sparse, even if it should be the case that the the signal is quite robust in the time domain. With this assumption, we can frame the problem as a case of sparse signal recovery, defined as follows:
 
@@ -137,10 +137,14 @@ At each windowing phase, we perform Orthogonal Matching Pursuit to reconstruct t
 
 
 \section{Results}
-In this section, we review the results of our reconstruction and compare it to other common methods of blind source separation, analyzing the optimal window.
+In this section, we review the results of our reconstruction and compare it to other common methods of blind source separation. The main .wav file used for the tests was a mixture of Clint Eastwood and Graham speaking over each other. Other samples included data from the Interspeech 2006 source separation challenge, and are constructed of concise sentences following the same generally structure. The source .wav files were combined using the sox command line program. 
 
-calculate psnr for each window size, maybe chart for best reconstruction?
-results (comparison to other techniques (ICA) and NMF)
+In practice, the results of using Compressive Sensing for blind source separation were underwhelming. The plots below depict the signal to noise ratio of our approach. In general, Independent Component Analysis, an industry standard of addressing the problem of blind source separation, is known to significantly outperform these results.
+
+
+It's worth noting that
+
+As can be seen, ICA provides a more accurate recovery than the Compressed Sensing approach, 
 
 % \section{Submission of papers to NIPS 2017}
 % 
